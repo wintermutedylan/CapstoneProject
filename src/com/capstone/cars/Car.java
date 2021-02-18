@@ -67,5 +67,11 @@ public class Car {
 	public void setId(String id) {
 		this.id = id;
 	}
+	@Override
+	public String toString() {
+		String id = (getMake() + " " + getModel() + " " + getYear() + " " + getMileage());
+		return id;
+		
+	}
 
 }

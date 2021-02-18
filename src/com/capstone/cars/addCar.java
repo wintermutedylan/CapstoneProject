@@ -1,8 +1,6 @@
 package com.capstone.cars;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -15,27 +13,29 @@ import javax.servlet.http.HttpServletResponse;
 import org.bson.Document;
 
 /**
- * Servlet implementation class HelloServlet
+ * Servlet implementation class addCar
  */
-@WebServlet("/helloServlet")
-public class HelloServlet extends HttpServlet {
+@WebServlet("/addCar")
+public class addCar extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public HelloServlet() {
+    public addCar() {
         super();
         // TODO Auto-generated constructor stub
     }
-    
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    	
-    	forwardListCars(req, resp);
-    }
-    
-    private void forwardListCars(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	private void forwardListCars(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     	String nextJSP = "/index.jsp";
     	List<Car> list = DBInteract.readDocsFromCollection();
     	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
@@ -46,27 +46,7 @@ public class HelloServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		
-		String action = request.getParameter("action");
-		switch (action) {
-		case "add":
-			addCarAction(request, response);
-			break;
-		case "edit":
-			addCarAction(request, response);
-			break;
-		case "delete":
-			addCarAction(request, response);
-			break;
-		}
-		
-		
-	}
-	
-	private void addCarAction (HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String make = req.getParameter("make");
 		String model = req.getParameter("model");
 		String year = req.getParameter("year");
@@ -78,8 +58,6 @@ public class HelloServlet extends HttpServlet {
 		
 		forwardListCars(req, resp);
 		
-		
 	}
-	
 
 }
