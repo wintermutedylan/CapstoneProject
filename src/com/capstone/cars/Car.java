@@ -7,6 +7,7 @@ public class Car {
 	private String year;
 	private String mileage;
 	private String id;
+	private String userId;
 	
 	public Car() {
 		
@@ -17,7 +18,7 @@ public class Car {
 		this.setModel(model);
 		this.setYear(year);
 		this.setMileage(mileage);
-		this.id = "user_id";
+		this.userId = "user_id";
 	}
 	
 	public Car(String make, String model, String year, String mileage, String id) {
@@ -67,11 +68,20 @@ public class Car {
 	public void setId(String id) {
 		this.id = id;
 	}
+	
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	
 	@Override
 	public String toString() {
-		String id = (getMake() + " " + getModel() + " " + getYear() + " " + getMileage());
+		String id = (getMake() + " " + getModel() + " " + getYear() + " " + getMileage() + " " + getId());
 		return id;
-		
 	}
+		
 
 }

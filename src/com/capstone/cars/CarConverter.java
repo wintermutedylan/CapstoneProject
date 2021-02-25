@@ -17,7 +17,7 @@ public class CarConverter {
 		c.setModel(doc.getString("model"));
 		c.setYear(doc.getString("year"));
 		c.setMileage(doc.getString("mileage"));
-		c.setId(doc.getString("id"));
+		c.setId(doc.get("_id").toString());
 		return c;
 	}
 	
@@ -33,6 +33,7 @@ public class CarConverter {
 		doc.put("year", car.getYear());
 		doc.put("mileage", car.getMileage());
 		doc.put("id", car.getId());
+		doc.append("attribute", DBInteract.addAttribute(car.getMileage()));
 		return doc;
 	}
 

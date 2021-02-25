@@ -31,7 +31,7 @@ public class addCar extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		forwardListCars(request, response);
 		
 	}
 	
@@ -47,6 +47,9 @@ public class addCar extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		String action = req.getParameter("action");
+		System.out.println(action);
 		String make = req.getParameter("make");
 		String model = req.getParameter("model");
 		String year = req.getParameter("year");

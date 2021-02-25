@@ -5,6 +5,9 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mongodb.client.model.Filters;
+import java.util.Arrays;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,6 +15,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import static com.mongodb.client.model.Filters.eq;
+import org.bson.conversions.Bson;
+import org.bson.types.ObjectId;
 import org.bson.Document;
 
 /**
@@ -50,6 +56,9 @@ public class HelloServlet extends HttpServlet {
 		
 		
 		String action = request.getParameter("action");
+		
+		String id = request.getParameter("carId");
+		System.out.println(id);
 		switch (action) {
 		case "add":
 			addCarAction(request, response);
@@ -58,7 +67,7 @@ public class HelloServlet extends HttpServlet {
 			addCarAction(request, response);
 			break;
 		case "delete":
-			addCarAction(request, response);
+			deleteCarAction(request, response, id);
 			break;
 		}
 		
@@ -66,6 +75,8 @@ public class HelloServlet extends HttpServlet {
 	}
 	
 	private void addCarAction (HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		
 		
 		String make = req.getParameter("make");
 		String model = req.getParameter("model");
@@ -80,6 +91,21 @@ public class HelloServlet extends HttpServlet {
 		
 		
 	}
+	
+	private void deleteCarAction (HttpServletRequest req, HttpServletResponse resp, String id) throws ServletException, IOException {
+		
+		ObjectId o = new ObjectId(id);
+		Bson filter = eq("_id", o);
+		
+		DBInteract.deleteDocInDB(filter);
+		
+		
+		forwardListCars(req, resp);
+		
+		
+	}
+	
+	
 	
 
 }
