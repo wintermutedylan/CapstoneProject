@@ -16,7 +16,7 @@
                 
                 <input type="hidden" id="action" name="action" value="add">
                 
-                <h2>Car</h2>
+                <h2>New Car</h2>
                 <div class="form-group col-xs-4">
                     <label for="make" class="control-label col-xs-4">Make:</label>
                     <input type="text" name="make" id="make" class="form-control" value="${car.make}" required="true"/>                                   

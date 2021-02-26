@@ -6,20 +6,22 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.FindIterable;
 
 import java.util.List;
+
+import static com.mongodb.client.model.Filters.eq;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
+import org.bson.types.ObjectId;
 
-
-
-import org.bson.Document;
 
 public class DBInteract {
 	
 	private static MongoClient mClient;
+
 	private static ArrayList<String> attributeNames = new ArrayList<String>();
 	
 	private static void populateAttributeNames() {
@@ -92,7 +94,7 @@ public class DBInteract {
 			populateAttributeNames();
 		}
 		LocalDate date = LocalDate.now();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		Document results = new Document();
 		for (String x : attributeNames) {
 			results.append(x, new Document()
@@ -100,6 +102,62 @@ public class DBInteract {
 					.append("last_update", date.format(formatter)));
 		}
 		return results;
+	}
+	
+	public static List<Attribute> readAttributesFromDocument(String carID){
+		if (attributeNames.isEmpty()) {
+			populateAttributeNames();
+		}
+		
+		ObjectId o = new ObjectId(carID);
+		Bson filter = eq("_id", o);
+		FindIterable<Document> myC = getCol().find().filter(filter);
+		
+		Document document = myC.cursor().next();
+		
+		List<Attribute> aList = new ArrayList<Attribute>();
+		for(String x : attributeNames) {
+			String m = document.getEmbedded(List.of("attributes", x, "mileage"), String.class);
+			String l = document.getEmbedded(List.of("attributes", x, "last_update"), String.class);
+			Attribute att = new Attribute(x, m, l);
+			aList.add(att);
+		}
+		
+		return aList;
+		
+		
+	}
+	
+	public static void updateAttribute(Attribute att, String id) {
+		
+		ObjectId o = new ObjectId(id);
+		Bson filter = eq("_id", o);
+		FindIterable<Document> myC = getCol().find().filter(filter);
+		Document query = new Document("$set", new Document("attributes." + att.getName() + ".mileage", att.getMileage()));
+		getCol().updateOne(filter, query);
+		Document query2 = new Document("$set", new Document("attributes." + att.getName() + ".last_update", att.getLastUpdated()));
+		getCol().updateOne(filter, query2);
+		Document query3 = new Document("$set", new Document("mileage", att.getMileage()));
+		getCol().updateOne(filter, query3);
+		
+		
+		
+		
+	}
+	
+	public static void updateCar(Car car, String id) {
+		System.out.println(id);
+		ObjectId o = new ObjectId(id);
+		Bson filter = eq("_id", o);
+		Document query = new Document("$set", new Document("make", car.getMake()));
+		getCol().updateOne(filter, query);
+		Document query2 = new Document("$set", new Document("model", car.getModel()));
+		getCol().updateOne(filter, query2);
+		Document query3 = new Document("$set", new Document("year", car.getYear()));
+		getCol().updateOne(filter, query3);
+		Document query4 = new Document("$set", new Document("mileage", car.getMileage()));
+		getCol().updateOne(filter, query4);
+		
 	}
 	
 	

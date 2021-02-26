@@ -7,7 +7,7 @@
 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Hello World Java EE</title>
+<title>List of Cars</title>
 <style>
 body {font-family: Arial, Helvetica, sans-serif;}
 * {box-sizing: border-box;}
@@ -98,7 +98,7 @@ hr {
 </head>
 <body>
 <div class="container">
-    <h1>Hello JSP and Servlet!</h1>
+    <h1>Car List</h1>
     
     
                   
@@ -118,14 +118,23 @@ hr {
                                     <td></td>
                                 </tr>
                                 <c:forEach items="${requestScope.carList}" var="car">
-                                <c:url value="editCar" var="editURL">
+                                <c:url value="editCar.jsp" var="editURL">
+                                	<c:param name="carId" value="${car.id}"></c:param>
+									<c:param name="carMake" value="${car.make}"></c:param>
+									<c:param name="carModel" value="${car.model}"></c:param>
+									<c:param name="carYear" value="${car.year}"></c:param>
+									<c:param name="carMileage" value="${car.mileage}"></c:param>
 									
 								</c:url>
 								<c:url value="deleteCar" var="deleteURL">
 									<c:param name="id" value="${car.id}"></c:param>
 								</c:url>
-								<c:url value="viewCarAttributes.jsp" var="attributeURL">
+								<c:url value="viewAttribute" var="attributeURL">
 									<c:param name="id" value="${car.id}"></c:param>
+									<c:param name="carMake" value="${car.make}"></c:param>
+									<c:param name="carModel" value="${car.model}"></c:param>
+									<c:param name="carYear" value="${car.year}"></c:param>
+									<c:param name="carMileage" value="${car.mileage}"></c:param>
 									
 								</c:url>
                             
@@ -138,10 +147,10 @@ hr {
                                     <td><c:out value="${car.year}"></c:out></td>
                                     <td><c:out value="${car.mileage}"></c:out></td>
                                     
-                                    <td><a href='<c:out value="${editURL}" escapeXml="true"></c:out>'>Edit</a></td>
+                                    <td><button type="submit" class="btn btn-primary btn-md" onclick="document.getElementById('action').value = 'edit'; document.getElementById('idCar').value = '${car.id}'; location.href='${editURL}'; ">Edit</button></td>
                                     <td><button type="submit" class="btn btn-primary  btn-md" onclick="document.getElementById('action').value = 'delete'; document.getElementById('idCar').value = '${car.id}'; document.getElementById('id01').style.display='block'">Delete</button></td>
                                     
-                                    <td><button type="submit" class="btn btn-primary btn-md" onclick="document.getElementById('idCar').value = '${car.id}'; location.href='${attributeURL}';">View Attributes</button></td>
+                                    <td><button type="submit" class="btn btn-primary btn-md" onclick="document.getElementById('action').value = 'view'; document.getElementById('idCar').value = '${car.id}'; location.href='${attributeURL}'; ">View Attributes</button></td>
                                     
                                     
                                 </tr>
@@ -162,6 +171,8 @@ hr {
 		<br></br>
 		<button type="submit" class="btn btn-primary  btn-md">Load Cars</button> 
 	</form>
+	
+	
 	
 	
 

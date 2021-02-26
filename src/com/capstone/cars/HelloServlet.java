@@ -58,13 +58,13 @@ public class HelloServlet extends HttpServlet {
 		String action = request.getParameter("action");
 		
 		String id = request.getParameter("carId");
-		System.out.println(id);
+		
 		switch (action) {
 		case "add":
 			addCarAction(request, response);
 			break;
 		case "edit":
-			addCarAction(request, response);
+			editCarAction(request, response, id);
 			break;
 		case "delete":
 			deleteCarAction(request, response, id);
@@ -99,6 +99,20 @@ public class HelloServlet extends HttpServlet {
 		
 		DBInteract.deleteDocInDB(filter);
 		
+		
+		forwardListCars(req, resp);
+		
+		
+	}
+	
+	private void editCarAction (HttpServletRequest req, HttpServletResponse resp, String id) throws ServletException, IOException {
+		String make = req.getParameter("make");
+		String model = req.getParameter("model");
+		String year = req.getParameter("year");
+		String mileage = req.getParameter("mileage");
+		Car c = new Car(make, model, year, mileage);
+		
+		DBInteract.updateCar(c, id);
 		
 		forwardListCars(req, resp);
 		
