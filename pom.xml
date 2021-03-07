@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.capstone.cars</groupId>
   <artifactId>CapstoneWeb</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.0</version>
   <packaging>war</packaging>
   <name>Capstone web page</name>
   <description>tomcat and servlet set up for capstone</description>
@@ -29,6 +29,13 @@
     <artifactId>jstl</artifactId>
     <version>1.2</version>
 </dependency>
+
+<dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <version>8.0.23</version>
+</dependency>
+
 </dependencies>
   <build>
     <sourceDirectory>src</sourceDirectory>
@@ -37,7 +44,7 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.8.1</version>
         <configuration>
-          <release>11</release>
+          <release>8</release>
         </configuration>
       </plugin>
       <plugin>
@@ -45,6 +52,7 @@
         <version>3.2.3</version>
         <configuration>
           <warSourceDirectory>WebContent</warSourceDirectory>
+          <warName>CapstoneWeb</warName>
         </configuration>
       </plugin>
     </plugins>

@@ -1,6 +1,7 @@
 package com.capstone.cars;
 
 import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.FindIterable;
@@ -47,19 +48,20 @@ public class DBInteract {
 	}
 	
 	private static MongoClient getMongoClient() {
-		if (mClient == null) {
-			mClient = new MongoClient("localhost", 27017);
-		}
+		MongoClientURI uri = new MongoClientURI(
+    		    "mongodb+srv://dwintermute:CapstoneProject@cluster0.vyhjd.mongodb.net/myFirstDatabase?retryWrites=true&w=majority");
+			mClient = new MongoClient(uri);
+		
 		return mClient;
 	}
 	
 	private static MongoDatabase getDB() {
-		return getMongoClient().getDatabase("myMongoDb");
+		return getMongoClient().getDatabase("CarsDB");
 	}
 	
 	public static MongoCollection<Document> getCol(){
 		
-		return getDB().getCollection("CarsTest");
+		return getDB().getCollection("Cars");
 	}
 	
 	public static List<Car> readDocsFromCollection() {
@@ -117,8 +119,10 @@ public class DBInteract {
 		
 		List<Attribute> aList = new ArrayList<Attribute>();
 		for(String x : attributeNames) {
-			String m = document.getEmbedded(List.of("attributes", x, "mileage"), String.class);
-			String l = document.getEmbedded(List.of("attributes", x, "last_update"), String.class);
+			String m = (String) document.get("attributes", Document.class).get(x, Document.class).get("mileage");
+			String l = (String) document.get("attributes", Document.class).get(x, Document.class).get("last_update");
+			//String m = document.getEmbedded(List.of("attributes", x, "mileage"), String.class);
+			//String l = document.getEmbedded(List.of("attributes", x, "last_update"), String.class);
 			Attribute att = new Attribute(x, m, l);
 			aList.add(att);
 		}
