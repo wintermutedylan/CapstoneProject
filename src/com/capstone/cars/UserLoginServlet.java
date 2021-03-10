@@ -1,6 +1,8 @@
 package com.capstone.cars;
 
-import java.io.*;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,11 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-
-
-import java.sql.SQLException;
-import java.util.List;
 
 /**
  * Servlet implementation class UserLoginServlet
@@ -30,13 +27,20 @@ public class UserLoginServlet extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 		String action = request.getParameter("action");
+		
 		
 		switch (action) {
 		case "login":
@@ -46,36 +50,6 @@ public class UserLoginServlet extends HttpServlet {
 			registerAction(request, response);
 			break;
 		}
-		
-		
-		
-		
-		
-		/*
-		UserDAO userDao = new UserDAO();
-		
-		try {
-			User user = userDao.checkLogin(email, password);
-			String destPage = "login.jsp";
-			
-			if (user != null) {
-				HttpSession session = request.getSession();
-				session.setAttribute("user", user);
-				destPage = "/helloServlet";
-			}
-			else {
-				String message = "Invalid email/password";
-				request.setAttribute("message", message);
-			}
-			
-			RequestDispatcher dispatcher = request.getRequestDispatcher(destPage);
-			dispatcher.forward(request, response);
-		} catch (SQLException | ClassNotFoundException ex) {
-			throw new ServletException(ex);
-		}
-		*/
-		
-		
 	}
 	
 	private void loginAction (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -90,19 +64,22 @@ public class UserLoginServlet extends HttpServlet {
 			if (user != null) {
 				HttpSession session = request.getSession();
 				session.setAttribute("user", user);
-				destPage = "helloServlet";
+				destPage = "/index.jsp";
 			}
 			else {
 				String message = "Invalid email/password";
 				request.setAttribute("message", message);
 			}
-	    	String nextJSP = "/index.jsp";
-	    	List<Car> list = DBInteract.readDocsFromCollection();
-	    	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
-	    	request.setAttribute("carList", list);
 			
-			//RequestDispatcher dispatcher = request.getRequestDispatcher(destPage);
-			dispatcher.forward(request, response);
+			
+
+	    	
+
+	    	List<Car> list = DBInteract.readDocsFromCollection(user.getEmail());
+	    	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(destPage);
+	    	request.setAttribute("carList", list);
+	    	dispatcher.forward(request, response);
+	    	
 		} catch (SQLException | ClassNotFoundException ex) {
 			throw new ServletException(ex);
 		}
@@ -140,8 +117,6 @@ public class UserLoginServlet extends HttpServlet {
 		} catch (SQLException | ClassNotFoundException ex) {
 			throw new ServletException(ex);
 		}
-		
-		
 	}
 
 }

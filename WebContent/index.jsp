@@ -150,7 +150,7 @@ hr {
                                     <td><button type="submit" class="btn btn-primary btn-md" onclick="document.getElementById('action').value = 'edit'; document.getElementById('idCar').value = '${car.id}'; location.href='${editURL}'; ">Edit</button></td>
                                     <td><button type="submit" class="btn btn-primary  btn-md" onclick="document.getElementById('action').value = 'delete'; document.getElementById('idCar').value = '${car.id}'; document.getElementById('id01').style.display='block'">Delete</button></td>
                                     
-                                    <td><button type="submit" class="btn btn-primary btn-md" onclick="document.getElementById('action').value = 'view'; document.getElementById('idCar').value = '${car.id}'; location.href='${attributeURL}'; ">View Details</button></td>
+                                    <td><button type="submit" class="btn btn-primary btn-md" onclick="document.getElementById('action').value = 'view'; document.getElementById('idCar').value = '${car.id}'; location.href='${attributeURL}'; ">Maintenance</button></td>
                                     
                                     
                                 </tr>
@@ -166,7 +166,7 @@ hr {
 		<br></br>
 		<button type="submit" class="btn btn-primary  btn-md">New Car</button> 
 	</form>
-	<div class="row" style="text-align: center">
+	
 	<form action ="login.jsp" method="get">            
 		<br></br>
 		<button type="submit" class="btn btn-primary  btn-md">Login</button> 
@@ -175,7 +175,7 @@ hr {
 		<br></br>
 		<button type="submit" class="btn btn-primary  btn-md">Register new user</button> 
 	</form>
-	</div>
+	
 	
       
 	<form action ="logout" method="get">            

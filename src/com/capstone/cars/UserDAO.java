@@ -4,9 +4,9 @@ import java.sql.*;
 
 public class UserDAO {
 	public User checkLogin(String email, String password) throws SQLException, ClassNotFoundException{
-		String jdbcURL = "jdbc:mysql://localhost:3306/login";
-		String dbUser = "root";
-		String dbPassword = "kalyN2007!";
+		String jdbcURL = "jdbc:mysql://capstonedatabase.cjus59jdxyan.us-east-2.rds.amazonaws.com:3306/login";
+		String dbUser = "dwintermute";
+		String dbPassword = "KalyN2007!";
 		
 		Class.forName("com.mysql.jdbc.Driver");
 		Connection connection = DriverManager.getConnection(jdbcURL, dbUser, dbPassword);
@@ -31,9 +31,9 @@ public class UserDAO {
 	}
 	
 	public String registerUser(String email, String password, String rePassword, String name) throws SQLException, ClassNotFoundException{
-		String jdbcURL = "jdbc:mysql://localhost:3306/login";
-		String dbUser = "root";
-		String dbPassword = "kalyN2007!";
+		String jdbcURL = "jdbc:mysql://capstonedatabase.cjus59jdxyan.us-east-2.rds.amazonaws.com:3306/login";
+		String dbUser = "dwintermute";
+		String dbPassword = "KalyN2007!";
 		
 		Class.forName("com.mysql.jdbc.Driver");
 		Connection connection = DriverManager.getConnection(jdbcURL, dbUser, dbPassword);

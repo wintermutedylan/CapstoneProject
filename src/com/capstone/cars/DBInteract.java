@@ -64,9 +64,13 @@ public class DBInteract {
 		return getDB().getCollection("Cars");
 	}
 	
-	public static List<Car> readDocsFromCollection() {
+	public static List<Car> readDocsFromCollection(String email) {
 		List<Car> docList = new ArrayList<Car>();
-		FindIterable<Document> myCursor = getCol().find();
+		
+		
+		Bson filter = eq("id", email);
+		
+		FindIterable<Document> myCursor = getCol().find().filter(filter);;
 		
 		
 		myCursor.cursor().forEachRemaining(t -> docList.add(CarConverter.toCar(t)));
@@ -100,7 +104,7 @@ public class DBInteract {
 		Document results = new Document();
 		for (String x : attributeNames) {
 			results.append(x, new Document()
-					.append("mileage", mile)
+					.append("mileage", "0") // zero out mileage for attribute
 					.append("last_update", date.format(formatter)));
 		}
 		return results;

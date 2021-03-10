@@ -2,6 +2,7 @@ package com.capstone.cars;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +17,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import static com.mongodb.client.model.Filters.eq;
 import org.bson.conversions.Bson;
@@ -40,12 +42,16 @@ public class HelloServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     	
-    	forwardListCars(req, resp);
+    	forwardListCars(req, resp, "/index.jsp");
     }
     
-    private void forwardListCars(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    	String nextJSP = "/index.jsp";
-    	List<Car> list = DBInteract.readDocsFromCollection();
+    private void forwardListCars(HttpServletRequest req, HttpServletResponse resp, String nextJSP) throws ServletException, IOException {
+		HttpSession session = req.getSession();
+		User user = (User) session.getAttribute("user");
+
+    	
+
+    	List<Car> list = DBInteract.readDocsFromCollection(user.getEmail());
     	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
     	req.setAttribute("carList", list);
     	dispatcher.forward(req, resp);
@@ -71,25 +77,30 @@ public class HelloServlet extends HttpServlet {
 		case "delete":
 			deleteCarAction(request, response, id);
 			break;
+
 		}
 		
 		
 	}
 	
 	private void addCarAction (HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
+		HttpSession session = req.getSession();
+		User user = (User) session.getAttribute("user");
 		
 		
 		String make = req.getParameter("make");
 		String model = req.getParameter("model");
 		String year = req.getParameter("year");
 		String mileage = req.getParameter("mileage");
-		Car c = new Car(make, model, year, mileage);
+		Car c = new Car(make, model, year, mileage, user.getEmail());
+		
+    	
+    	
 		
 		Document doc = CarConverter.toMongoDoc(c);
 		DBInteract.storeInDB(doc);
-		
-		forwardListCars(req, resp);
+    	String nextJSP = "/index.jsp";
+		forwardListCars(req, resp, nextJSP);
 		
 		
 	}
@@ -101,26 +112,32 @@ public class HelloServlet extends HttpServlet {
 		
 		DBInteract.deleteDocInDB(filter);
 		
-		
-		forwardListCars(req, resp);
+    	String nextJSP = "/index.jsp";
+		forwardListCars(req, resp, nextJSP);
 		
 		
 	}
 	
 	private void editCarAction (HttpServletRequest req, HttpServletResponse resp, String id) throws ServletException, IOException {
+		HttpSession session = req.getSession();
+		User user = (User) session.getAttribute("user");
+		
 		String make = req.getParameter("make");
 		String model = req.getParameter("model");
 		String year = req.getParameter("year");
 		String mileage = req.getParameter("mileage");
-		Car c = new Car(make, model, year, mileage);
+		Car c = new Car(make, model, year, mileage, user.getEmail());
 		
 		DBInteract.updateCar(c, id);
-		
-		forwardListCars(req, resp);
+    	String nextJSP = "/index.jsp";
+		forwardListCars(req, resp, nextJSP);
 		
 		
 	}
 	
+
+		
+		
 	
 	
 
