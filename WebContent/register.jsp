@@ -16,50 +16,76 @@
 </head>
 <body>
 
-    <div style="text-align: center">
+    <div class="container">
         <h1>User Registration</h1>
-        <form action="login" method="post" id="loginForm">
+        <form action="login" method="post" class="form-horizontal needs-validation" novalidate>
         <input type="hidden" id="action" name="action" value="register">
-            <label for="name" class="control-label col-xs-4">Name:</label>
-            <input  name="name" size="30" required/>
-            <br><br>
-            <label for="email" class="control-label col-xs-4">Email:</label>
-            <input  name="email" size="30"/>
-            <br><br>
-            <label for="password" class="control-label col-xs-4">Password:</label>
-            <input type="password" name="password" size="30"/>
-            <br><br>
-            <label for="repassword" class="control-label col-xs-4">Retype password:</label>
-            <input type="password" name="repassword" size="30"/>
-            <br>${message}
-            <br><br>           
+            <div class="form-outline">
+            	<label for="name" class="col-sm-2 form-label">Name:</label>
+            	<div class="col-sm-10">
+            		<input type="text" class="form-control" id="name" name ="name" placeholder="John Smith" required/>
+            	
+            		<div class="valid-feedback">Looks good!</div>
+            		<div class="invalid-feedback">Please enter a name.</div>
+            	</div>
+            </div>
+            
+            <div class="form-outline">
+            
+            	<label for="email" class="col-sm-2 form-label">Email:</label>
+            	<div class="col-sm-10">
+            		<input type="email" class="form-control" id="email" name="email" placeholder="john.smith@gmail.com" required />
+            	
+            		<div class="valid-feedback">Looks good!</div>
+            		<div class="invalid-feedback">Please enter a valid email.</div>
+            		</div>
+            	
+            </div>
+            <div class="form-outline">
+            	<label for="password" class="col-sm-2 form-label">Password:</label>
+            	<div class="col-sm-10">
+            	
+            		<input type="password" class="form-control" id="password" name="password" minlength="6" placeholder="Password needs to be at least 6 characters" required/>
+            	
+            		<div class="valid-feedback">Looks good!</div>
+            		<div class="invalid-feedback">Enter a password at least 6 characters.</div>
+            	</div>
+            </div>
+            <div class="form-outline">
+            <label for="repassword" class="col-sm-2 form-label">Retype password:</label>
+            	<div class="col-sm-10">
+            	<input type="password" class="form-control" id="repassword" minlength="6" name="repassword" placeholder="Retype password"required />
+            	
+            	<div class="valid-feedback">Looks good!</div>
+            	<div class="invalid-feedback">Enter a password at least 6 characters.</div>
+            	</div>
+            </div>
+            
+            <div class="col-sm-offset-2 col-sm-10">   
+            <br>${message} 
+            <br></br>     
             <button type="submit" class="btn btn-primary btn-md">Register</button>
+            </div>
         </form>
     </div>
     <script >
- 
-    
-        $("#loginForm").validate({
-            rules: {
-                email: {
-                    required: true,
-                    email: true
-                },
-         
-                password: "required",
-                minlength: "6",
-            },
-             
-            messages: {
-                email: {
-                    required: "Please enter email",
-                    email: "Please enter a valid email address"
-                },
-                 
-                password: "Please enter password"
-            }
-        });
- 
+    (() => {
+    	  'use strict';
+
+    	  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    	  const forms = document.querySelectorAll('.needs-validation');
+
+    	  // Loop over them and prevent submission
+    	  Array.prototype.slice.call(forms).forEach((form) => {
+    	    form.addEventListener('submit', (event) => {
+    	      if (!form.checkValidity()) {
+    	        event.preventDefault();
+    	        event.stopPropagation();
+    	      }
+    	      form.classList.add('was-validated');
+    	    }, false);
+    	  });
+    	})();
     
 </script>
     

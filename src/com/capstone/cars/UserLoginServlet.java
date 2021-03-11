@@ -59,12 +59,14 @@ public class UserLoginServlet extends HttpServlet {
 		
 		try {
 			User user = userDao.checkLogin(email, password);
-			String destPage = "login.jsp";
+			String destPage = "/login.jsp";
 			
 			if (user != null) {
 				HttpSession session = request.getSession();
 				session.setAttribute("user", user);
 				destPage = "/index.jsp";
+				List<Car> list = DBInteract.readDocsFromCollection(user.getEmail());
+				request.setAttribute("carList", list);
 			}
 			else {
 				String message = "Invalid email/password";
@@ -75,9 +77,9 @@ public class UserLoginServlet extends HttpServlet {
 
 	    	
 
-	    	List<Car> list = DBInteract.readDocsFromCollection(user.getEmail());
+	    	
 	    	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(destPage);
-	    	request.setAttribute("carList", list);
+	    	
 	    	dispatcher.forward(request, response);
 	    	
 		} catch (SQLException | ClassNotFoundException ex) {

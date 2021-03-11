@@ -14,45 +14,55 @@
 
 </head>
 <body>
-    <div style="text-align: center">
+    <div class="container">
         <h1>User Login</h1>
-        <form action="login" method="post" id="loginForm">
+        <form action="login" method="post" id="loginForm" class="form-horizontal needs-validation" novalidate>
         <input type="hidden" id="action" name="action" value="login">
-        
-            <label for="email">Email:</label>
-            <input name="email" size="30" />
-            <br><br>
-            <label for="password">Password:</label>
-            <input type="password" name="password" size="30" />
+        <div class="form-outline">
+            <label for="email" class="col-sm-2 form-label">Email:</label>
+            <div class="col-sm-10">
+            	<input name="email" id="email" class="form-control" placeholder="john.smith@gmail.com" required/>
+            	    <div class="valid-feedback">Looks good!</div>
+            		<div class="invalid-feedback">Please enter an email.</div>
+            </div>
+            
+        </div>
+        <div class="form-outline">
+            <label for="password" class="col-sm-2 form-label">Password:</label>
+            <div class="col-sm-10">
+            <input type="password" class="form-control" id="password" name="password" placeholder="password" required/>
+                    <div class="valid-feedback">Looks good!</div>
+            		<div class="invalid-feedback">Please enter a password.</div>
+            </div>
+		</div>
+            
+                  
+            <div class="col-sm-offset-2 col-sm-10"> 
             <br>${message}
-            <br><br>        
-            
+            <br></br>
             	<button type="submit" class="btn btn-primary btn-md">Login</button>
-            
+            </div>
         </form>
     </div>
 <script >
  
-    
-        $("#loginForm").validate({
-            rules: {
-                email: {
-                    required: true,
-                    email: true
-                },
-         
-                password: "required",
-            },
-             
-            messages: {
-                email: {
-                    required: "Please enter email",
-                    email: "Please enter a valid email address"
-                },
-                 
-                password: "Please enter password"
-            }
-        });
+(() => {
+	  'use strict';
+
+	  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+	  const forms = document.querySelectorAll('.needs-validation');
+
+	  // Loop over them and prevent submission
+	  Array.prototype.slice.call(forms).forEach((form) => {
+	    form.addEventListener('submit', (event) => {
+	      if (!form.checkValidity()) {
+	        event.preventDefault();
+	        event.stopPropagation();
+	      }
+	      form.classList.add('was-validated');
+	    }, false);
+	  });
+	})();
  
     
 </script>

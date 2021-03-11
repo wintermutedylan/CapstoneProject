@@ -162,26 +162,26 @@ hr {
             
 	
 
-	<form action ="new-car.jsp" method="get">            
+	<form action ="new-car.jsp" method="get">   
 		<br></br>
 		<button type="submit" class="btn btn-primary  btn-md">New Car</button> 
 	</form>
 	
-	<form action ="login.jsp" method="get">            
+	<form action ="login.jsp" method="get">
 		<br></br>
-		<button type="submit" class="btn btn-primary  btn-md">Login</button> 
+		<button type="submit" class="btn btn-primary  btn-md">Login</button>
 	</form>
-	<form action ="register.jsp" method="get">            
+	
+	<form action ="register.jsp" method="get">     
 		<br></br>
 		<button type="submit" class="btn btn-primary  btn-md">Register new user</button> 
 	</form>
 	
-	
-      
-	<form action ="logout" method="get">            
+	<form action ="logout" method="get">       
 		<br></br>
 		<button type="submit" class="btn btn-primary  btn-md">Logout</button> 
 	</form>
+
 	
 	
 	
