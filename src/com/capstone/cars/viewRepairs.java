@@ -11,17 +11,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class viewAttribute
+ * Servlet implementation class viewRepairs
  */
-@WebServlet("/viewAttribute")
-public class viewAttribute extends HttpServlet {
+@WebServlet("/viewRepairs")
+public class viewRepairs extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public viewAttribute() {
+    public viewRepairs() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,29 +29,23 @@ public class viewAttribute extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		/*
-		String nextJSP = "/viewCarAttributes.jsp";
-    	List<Attribute> list = DBInteract.readAttributesFromDocument(request.getParameter("id"));
-    	
-    	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
-    	request.setAttribute("attributeList", list);
-    	dispatcher.forward(request, response);
-    	*/
+		// TODO Auto-generated method stub
 		forwardAttributeList(request, response);
-		
 	}
 	
 	private void forwardAttributeList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String nextJSP = "/viewCarAttributes.jsp";
+		String nextJSP = "/viewCarRepairs.jsp";
 		
-    	List<Attribute> list = DBInteract.readAttributesFromDocument(req.getParameter("id"));
+    	List<Attribute> list = DBInteract.readRepairsFromDocument(req.getParameter("id"));
     	
     	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
-    	
+    	/*
+    	if (req.getAttribute("currentCar") == null) {
     		String currCar = req.getParameter("carYear") + " " + req.getParameter("carMake") + " " + req.getParameter("carModel");
     	
     		req.setAttribute("currentCar", currCar);
-    	
+    	}
+    	*/
     	req.setAttribute("attributeList", list);
     	dispatcher.forward(req, resp);
 		
@@ -66,17 +59,11 @@ public class viewAttribute extends HttpServlet {
 		String mileage = request.getParameter("mileage");
 		String name = request.getParameter("name");
 		String id = request.getParameter("id");
-		String c = request.getParameter("current");
-		
-		request.setAttribute("currentCar", c);
 		
 		
 		Attribute att = new Attribute(name, mileage, last);
-		DBInteract.updateAttribute(att, id);
+		DBInteract.updateRepair(att, id);
 		forwardAttributeList(request, response);
-		
-		
-		
 	}
 
 }

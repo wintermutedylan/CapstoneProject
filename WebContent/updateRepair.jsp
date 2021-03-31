@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Update Attribute</title>
+<title>Update Repairs</title>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
@@ -16,7 +16,7 @@
 
 
 
-	<form action="viewAttribute" method="post"  role="form" data-toggle="validator" >
+	<form action="viewRepairs" method="post"  role="form" data-toggle="validator" >
 	<h2><%= request.getParameter("name") %></h2>
 	
 	<div class="form-group col-xs-4">
@@ -28,7 +28,6 @@
 		
 		<input type="hidden" id="name" name="name" value="<%= request.getParameter("name") %>">
 		<input type="hidden" id="id" name="id" value="<%= request.getParameter("id") %>">
-		<input type="hidden" id="current" name="current" value="<%= request.getParameter("currC") %>">
 		
 		<br></br>
 		<button type="submit" class="btn btn-primary  btn-md">Update</button> 

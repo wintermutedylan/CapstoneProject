@@ -1,6 +1,8 @@
 package com.capstone.cars;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDAO {
 	public User checkLogin(String email, String password) throws SQLException, ClassNotFoundException{
@@ -10,19 +12,23 @@ public class UserDAO {
 		
 		Class.forName("com.mysql.jdbc.Driver");
 		Connection connection = DriverManager.getConnection(jdbcURL, dbUser, dbPassword);
-		String sql = "SELECT * FROM users WHERE email = ? and password = ?";
+		String sql = "SELECT * FROM newusers WHERE email = ?";
 		PreparedStatement statement = connection.prepareStatement(sql);
 		statement.setString(1, email);
-		statement.setString(2, password);
+		
+		
 		
 		ResultSet result = statement.executeQuery();
 		
 		User user = null;
 		
 		if (result.next()) {
-			user = new User();
-			user.setFullname(result.getString("fullname"));
-			user.setEmail(email);
+			boolean passwordMatch = PasswordUtils.verifyUserPassword(password, result.getString("password"), result.getString("salty"));
+			if (passwordMatch) {
+				user = new User();
+				user.setFullname(result.getString("fullname"));
+				user.setEmail(email);
+			}
 		}
 		
 		connection.close();
@@ -37,7 +43,7 @@ public class UserDAO {
 		
 		Class.forName("com.mysql.jdbc.Driver");
 		Connection connection = DriverManager.getConnection(jdbcURL, dbUser, dbPassword);
-		String sql = "SELECT * FROM users WHERE email = ?";
+		String sql = "SELECT * FROM newusers WHERE email = ?";
 		PreparedStatement statement = connection.prepareStatement(sql);
 		statement.setString(1, email);
 		
@@ -51,23 +57,69 @@ public class UserDAO {
 			return "Passwords didn't match. Try again.";
 		}
 		else {
-			String sqlInsert = "INSERT INTO users (email, password, fullname)"
-					+ " values (?, ?, ?)";
+			String salt = PasswordUtils.getSalt(30);
+			String mySecurePassword = PasswordUtils.generateSecurePassword(password, salt);
+			String sqlInsert = "INSERT INTO newusers (email, password, salty, fullname)"
+					+ " values (?, ?, ?, ?)";
 			PreparedStatement prepState = connection.prepareStatement(sqlInsert);
 			prepState.setString(1, email);
-			prepState.setString(2, password);
-			prepState.setString(3, name);
+			prepState.setString(2, mySecurePassword);
+			prepState.setString(3, salt);
+			prepState.setString(4, name);
 			
 			prepState.execute();
 			
 			connection.close();
 			return "Succesfully registered";
 		}
+			
+		
+	}
+	
+	public static List<Attribute> readHistory(String itemName, String id) throws ClassNotFoundException, SQLException {
+		String jdbcURL = "jdbc:mysql://capstonedatabase.cjus59jdxyan.us-east-2.rds.amazonaws.com:3306/login";
+		String dbUser = "dwintermute";
+		String dbPassword = "KalyN2007!";
+		
+		Class.forName("com.mysql.jdbc.Driver");
+		Connection connection = DriverManager.getConnection(jdbcURL, dbUser, dbPassword);
+		String sql = "SELECT * FROM attributerepairhistory WHERE name = ? carid = ?";
+		PreparedStatement statement = connection.prepareStatement(sql);
+		statement.setString(1, itemName);
+		statement.setString(2, id);
+		
+		ResultSet result = statement.executeQuery();
+		List<Attribute> list = new ArrayList<Attribute>();
 		
 		
 		
+		while (result.next()) {
+			Attribute att = new Attribute(itemName, result.getString("mileage"), result.getString("lastupdated"));
+			list.add(att);
+		}
 		
 		
+		connection.close();
+		return list;
+		
+	}
+	
+	public static void storeHistory(String itemName, String miles, String updated, String id) throws ClassNotFoundException, SQLException{
+		String jdbcURL = "jdbc:mysql://capstonedatabase.cjus59jdxyan.us-east-2.rds.amazonaws.com:3306/login";
+		String dbUser = "dwintermute";
+		String dbPassword = "KalyN2007!";
+		
+		Class.forName("com.mysql.jdbc.Driver");
+		Connection connection = DriverManager.getConnection(jdbcURL, dbUser, dbPassword);
+		String sql = "INSERT INTO attributerepairhistory (name, mileage, lastupdated, carid)"
+				+ " values (?, ?, ?, ?)";
+		PreparedStatement prepState = connection.prepareStatement(sql);
+		prepState.setString(1, itemName);
+		prepState.setString(2, miles);
+		prepState.setString(3, updated);
+		prepState.setString(4, id);
+		
+		prepState.execute();
 		
 		
 		

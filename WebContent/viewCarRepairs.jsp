@@ -7,12 +7,12 @@
 <meta charset="ISO-8859-1">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-<title>Car Attributes</title>
+<title>Car Repairs</title>
 </head>
 <body>
 <div class="container">
 	
-    <h1>'<%= request.getParameter("currentCar") %>'</h1>
+    <h1>Car Repairs</h1>
     
     
                   
@@ -32,12 +32,11 @@
                                     <td></td>
                                 </tr>
                                 <c:forEach items="${requestScope.attributeList}" var="attribute">
-                                <c:url value="updateAttribute.jsp" var="updateURL">
+                                <c:url value="updateRepair.jsp" var="updateURL">
                                 	<c:param name="name" value="${attribute.name}"></c:param>
                                 	<c:param name="mileage" value="${attribute.mileage}"></c:param>
                                 	<c:param name="lastUpdated" value="${attribute.lastUpdated}"></c:param>
                                 	<c:param name="id" value='<%= request.getParameter("id") %>'></c:param>
-                                	<c:param name="currC" value='<%= request.getParameter("currentCar") %>'></c:param>
                                 	
 									
 								</c:url>

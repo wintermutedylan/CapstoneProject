@@ -34,7 +34,8 @@ public class CarConverter {
 		doc.put("mileage", car.getMileage());
 		doc.put("id", car.getId());
 		
-		doc.append("attributes", DBInteract.addAttribute(car.getMileage()));
+		doc.append("attributes", DBInteract.addAttribute());
+		doc.append("repairs", DBInteract.addRepairs());
 		return doc;
 	}
 

@@ -7,6 +7,7 @@
 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta name="google-signin-client_id" content="370185456533-9ee92cjuhgpe2uog5k6nv5qrdq5c1irs.apps.googleusercontent.com">
 <title>List of Cars</title>
 <style>
 body {font-family: Arial, Helvetica, sans-serif;}
@@ -137,6 +138,14 @@ hr {
 									<c:param name="carMileage" value="${car.mileage}"></c:param>
 									
 								</c:url>
+								<c:url value="viewRepairs" var="repairsURL">
+									<c:param name="id" value="${car.id}"></c:param>
+									<c:param name="carMake" value="${car.make}"></c:param>
+									<c:param name="carModel" value="${car.model}"></c:param>
+									<c:param name="carYear" value="${car.year}"></c:param>
+									<c:param name="carMileage" value="${car.mileage}"></c:param>
+									
+								</c:url>
                             
                             
                                 
@@ -150,8 +159,8 @@ hr {
                                     <td><button type="submit" class="btn btn-primary btn-md" onclick="document.getElementById('action').value = 'edit'; document.getElementById('idCar').value = '${car.id}'; location.href='${editURL}'; ">Edit</button></td>
                                     <td><button type="submit" class="btn btn-primary  btn-md" onclick="document.getElementById('action').value = 'delete'; document.getElementById('idCar').value = '${car.id}'; document.getElementById('id01').style.display='block'">Delete</button></td>
                                     
-                                    <td><button type="submit" class="btn btn-primary btn-md" onclick="document.getElementById('action').value = 'view'; document.getElementById('idCar').value = '${car.id}'; location.href='${attributeURL}'; ">Maintenance</button></td>
-                                    
+                                    <td><button type="submit" class="btn btn-primary btn-md" onclick="document.getElementById('idCar').value = '${car.id}'; location.href='${attributeURL}'; ">Maintenance</button></td>
+                                    <td><button type="submit" class="btn btn-primary btn-md" onclick="document.getElementById('idCar').value = '${car.id}'; location.href='${repairsURL}'; ">Repairs</button></td>
                                     
                                 </tr>
                                 </c:forEach>
@@ -166,6 +175,9 @@ hr {
 		<br></br>
 		<button type="submit" class="btn btn-primary  btn-md">New Car</button> 
 	</form>
+
+	
+
 	
 	<form action ="login.jsp" method="get">
 		<br></br>
@@ -196,8 +208,8 @@ hr {
   <input type="hidden" id="carId" name="carId">
   
     <div class="container">
-      <h1>Delete Account</h1>
-      <p>Are you sure you want to delete your account?</p>
+      <h1>Delete Car</h1>
+      <p>Are you sure you want to delete this car?</p>
     
       <div class="clearfix">
         <button type="button"  onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
@@ -213,5 +225,6 @@ hr {
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
 </body>
 </html>

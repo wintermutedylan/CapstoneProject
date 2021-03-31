@@ -24,6 +24,7 @@ public class DBInteract {
 	private static MongoClient mClient;
 
 	private static ArrayList<String> attributeNames = new ArrayList<String>();
+	private static ArrayList<String> repairNames = new ArrayList<String>();
 	
 	private static void populateAttributeNames() {
 		
@@ -44,6 +45,40 @@ public class DBInteract {
     	attributeNames.add("safety inspection");
     	attributeNames.add("emmissions inspection");
     	attributeNames.add("car wash");
+		
+	}
+	private static void populateRepairNames() {
+		
+    	repairNames.add("brake pads - front");
+    	repairNames.add("brake pads - rear");
+    	repairNames.add("brake rotors - front");
+    	repairNames.add("brake rotors - rear");
+    	repairNames.add("brake calipers - front");
+    	repairNames.add("brake calipers - rear");
+    	repairNames.add("shock absorber/strut - front");
+    	repairNames.add("shock absorber/strut - rear");
+    	repairNames.add("ball joints - front");
+    	repairNames.add("ball joints - rear");
+    	repairNames.add("tie rods - front");
+    	repairNames.add("tie rods - rear");
+    	repairNames.add("head lights");
+    	repairNames.add("turn signals");
+    	repairNames.add("tail lights");
+    	repairNames.add("brake lights");
+    	repairNames.add("interior lights");
+    	repairNames.add("windshield replacement");
+    	repairNames.add("side glass replacement");
+    	repairNames.add("rear glass replacement");
+    	repairNames.add("brake shoes");
+    	repairNames.add("serpentine belt");
+    	repairNames.add("termostat");
+    	repairNames.add("water pump");
+    	repairNames.add("oxygen sensors");
+    	repairNames.add("muffler");
+    	repairNames.add("catalytic converter");
+    	repairNames.add("tail pipe");
+    	repairNames.add("transmission repair");
+    	
 		
 	}
 	
@@ -95,17 +130,28 @@ public class DBInteract {
 	
 	
 	
-	public static Document addAttribute(String mile) {
+	public static Document addAttribute() {
 		if (attributeNames.isEmpty()) {
 			populateAttributeNames();
 		}
-		LocalDate date = LocalDate.now();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		Document results = new Document();
 		for (String x : attributeNames) {
 			results.append(x, new Document()
 					.append("mileage", "0") // zero out mileage for attribute
-					.append("last_update", date.format(formatter)));
+					.append("last_update", "2000-01-01"));
+		}
+		return results;
+	}
+	public static Document addRepairs() {
+		if (repairNames.isEmpty()) {
+			populateRepairNames();
+		}
+
+		Document results = new Document();
+		for (String x : repairNames) {
+			results.append(x, new Document()
+					.append("mileage", "0") // zero out mileage for attribute
+					.append("last_update", "2000-01-01"));
 		}
 		return results;
 	}
@@ -125,8 +171,29 @@ public class DBInteract {
 		for(String x : attributeNames) {
 			String m = (String) document.get("attributes", Document.class).get(x, Document.class).get("mileage");
 			String l = (String) document.get("attributes", Document.class).get(x, Document.class).get("last_update");
-			//String m = document.getEmbedded(List.of("attributes", x, "mileage"), String.class);
-			//String l = document.getEmbedded(List.of("attributes", x, "last_update"), String.class);
+			Attribute att = new Attribute(x, m, l);
+			aList.add(att);
+		}
+		
+		return aList;
+		
+		
+	}
+	public static List<Attribute> readRepairsFromDocument(String carID){
+		if (repairNames.isEmpty()) {
+			populateRepairNames();
+		}
+		
+		ObjectId o = new ObjectId(carID);
+		Bson filter = eq("_id", o);
+		FindIterable<Document> myC = getCol().find().filter(filter);
+		
+		Document document = myC.cursor().next();
+		
+		List<Attribute> aList = new ArrayList<Attribute>();
+		for(String x : repairNames) {
+			String m = (String) document.get("repairs", Document.class).get(x, Document.class).get("mileage");
+			String l = (String) document.get("repairs", Document.class).get(x, Document.class).get("last_update");
 			Attribute att = new Attribute(x, m, l);
 			aList.add(att);
 		}
@@ -145,12 +212,20 @@ public class DBInteract {
 		getCol().updateOne(filter, query);
 		Document query2 = new Document("$set", new Document("attributes." + att.getName() + ".last_update", att.getLastUpdated()));
 		getCol().updateOne(filter, query2);
-		Document query3 = new Document("$set", new Document("mileage", att.getMileage()));
-		getCol().updateOne(filter, query3);
+	
 		
+	}
+	
+	public static void updateRepair(Attribute att, String id) {
 		
-		
-		
+		ObjectId o = new ObjectId(id);
+		Bson filter = eq("_id", o);
+		FindIterable<Document> myC = getCol().find().filter(filter);
+		Document query = new Document("$set", new Document("repairs." + att.getName() + ".mileage", att.getMileage()));
+		getCol().updateOne(filter, query);
+		Document query2 = new Document("$set", new Document("repairs." + att.getName() + ".last_update", att.getLastUpdated()));
+		getCol().updateOne(filter, query2);
+
 	}
 	
 	public static void updateCar(Car car, String id) {
