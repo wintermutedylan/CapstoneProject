@@ -40,6 +40,10 @@
                                 	
 									
 								</c:url>
+								<c:url value="History" var="historyURL">
+                                	<c:param name="name" value="${attribute.name}"></c:param>
+                                	<c:param name="idCar" value='<%= request.getParameter("id") %>'></c:param>
+								</c:url>
 								
                                 <tr>
                                                                       
@@ -49,6 +53,7 @@
                                     
                                     
                                     <td><button type="submit" class="btn btn-primary btn-md" onclick="location.href='${updateURL}'; ">Update</button></td>
+                                    <td><button type="submit" class="btn btn-primary btn-md" onclick="location.href='${historyURL}'; ">History</button></td>
                                     
                                     
                                 </tr>

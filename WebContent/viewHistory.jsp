@@ -1,18 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+        <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-<title>Car Attributes</title>
+<title>History</title>
 </head>
 <body>
 <div class="container">
 	
-    <h1>Maintenance</h1>
+    <h1>History</h1>
     
     
                   
@@ -32,19 +32,6 @@
                                     <td></td>
                                 </tr>
                                 <c:forEach items="${requestScope.attributeList}" var="attribute">
-                                <c:url value="updateAttribute.jsp" var="updateURL">
-                                	<c:param name="name" value="${attribute.name}"></c:param>
-                                	<c:param name="mileage" value="${attribute.mileage}"></c:param>
-                                	<c:param name="lastUpdated" value="${attribute.lastUpdated}"></c:param>
-                                	<c:param name="id" value='<%= request.getParameter("id") %>'></c:param>
-                                	<c:param name="currC" value='<%= request.getParameter("currentCar") %>'></c:param>
-                                	
-									
-								</c:url>
-								<c:url value="History" var="historyURL">
-                                	<c:param name="name" value="${attribute.name}"></c:param>
-                                	<c:param name="idCar" value='<%= request.getParameter("id") %>'></c:param>
-								</c:url>
 								
                                 <tr>
                                                                       
@@ -53,8 +40,6 @@
                                     <td><c:out value="${attribute.lastUpdated}"></c:out></td>
                                     
                                     
-                                    <td><button type="submit" class="btn btn-primary btn-md" onclick="location.href='${updateURL}'; ">Update</button></td>
-                                    <td><button type="submit" class="btn btn-primary btn-md" onclick="location.href='${historyURL}'; ">History</button></td>
                                     
                                     
                                 </tr>
@@ -63,18 +48,11 @@
                             </tbody>            
                         </table>  
                         
-    <form action ="helloServlet" method="get">            
-		<br></br>
-		<button type="submit" class="btn btn-primary  btn-md">Back to Car list</button> 
-	</form>
+
                                            
             
 	
 </div>
-
-
-
-
 
 
 

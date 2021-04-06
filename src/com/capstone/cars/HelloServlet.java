@@ -110,6 +110,12 @@ public class HelloServlet extends HttpServlet {
 		ObjectId o = new ObjectId(id);
 		Bson filter = eq("_id", o);
 		
+		try {
+			UserDAO.deleteHistory(id);
+		} catch (SQLException | ClassNotFoundException ex) {
+			
+			throw new ServletException(ex);
+		}
 		DBInteract.deleteDocInDB(filter);
 		
     	String nextJSP = "/index.jsp";

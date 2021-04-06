@@ -35,7 +35,7 @@ public class History extends HttpServlet {
 		String nextJSP = "/viewHistory.jsp";
 		
 		try {
-			list = UserDAO.readHistory(request.getParameter("name"), request.getParameter("id"));
+			list = UserDAO.readHistory(request.getParameter("name"), request.getParameter("idCar"));
 		} catch (SQLException | ClassNotFoundException ex) {
 			
 			throw new ServletException(ex);

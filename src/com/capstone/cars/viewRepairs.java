@@ -1,6 +1,7 @@
 package com.capstone.cars;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -39,13 +40,6 @@ public class viewRepairs extends HttpServlet {
     	List<Attribute> list = DBInteract.readRepairsFromDocument(req.getParameter("id"));
     	
     	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
-    	/*
-    	if (req.getAttribute("currentCar") == null) {
-    		String currCar = req.getParameter("carYear") + " " + req.getParameter("carMake") + " " + req.getParameter("carModel");
-    	
-    		req.setAttribute("currentCar", currCar);
-    	}
-    	*/
     	req.setAttribute("attributeList", list);
     	dispatcher.forward(req, resp);
 		
@@ -60,6 +54,12 @@ public class viewRepairs extends HttpServlet {
 		String name = request.getParameter("name");
 		String id = request.getParameter("id");
 		
+		try {
+			UserDAO.storeHistory(name, mileage, last, id);
+		} catch (SQLException | ClassNotFoundException ex) {
+			
+			throw new ServletException(ex);
+		}
 		
 		Attribute att = new Attribute(name, mileage, last);
 		DBInteract.updateRepair(att, id);

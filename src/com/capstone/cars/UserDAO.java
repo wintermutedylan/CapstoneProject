@@ -83,20 +83,24 @@ public class UserDAO {
 		
 		Class.forName("com.mysql.jdbc.Driver");
 		Connection connection = DriverManager.getConnection(jdbcURL, dbUser, dbPassword);
-		String sql = "SELECT * FROM attributerepairhistory WHERE name = ? carid = ?";
+		String sql = "SELECT * FROM attributerepairhistory WHERE name = ? and carid = ?";
 		PreparedStatement statement = connection.prepareStatement(sql);
 		statement.setString(1, itemName);
 		statement.setString(2, id);
-		
-		ResultSet result = statement.executeQuery();
+		ResultSet result = null;
 		List<Attribute> list = new ArrayList<Attribute>();
 		
+			result = statement.executeQuery();
+			while (result.next()) {
+				Attribute att = new Attribute(itemName, result.getString("mileage"), result.getString("lastupdated"));
+				list.add(att);
+			}
+
 		
 		
-		while (result.next()) {
-			Attribute att = new Attribute(itemName, result.getString("mileage"), result.getString("lastupdated"));
-			list.add(att);
-		}
+		
+		
+		
 		
 		
 		connection.close();
@@ -120,6 +124,31 @@ public class UserDAO {
 		prepState.setString(4, id);
 		
 		prepState.execute();
+		
+		
+		
+	}
+	
+	public static void deleteHistory(String id) throws ClassNotFoundException, SQLException{
+		String jdbcURL = "jdbc:mysql://capstonedatabase.cjus59jdxyan.us-east-2.rds.amazonaws.com:3306/login";
+		String dbUser = "dwintermute";
+		String dbPassword = "KalyN2007!";
+		
+		Class.forName("com.mysql.jdbc.Driver");
+		Connection connection = DriverManager.getConnection(jdbcURL, dbUser, dbPassword);
+		String sqlNoSafe = "SET sql_safe_updates = 0";
+		String sqlYesSafe = "SET sql_safe_updates = 1";
+		String sql = "DELETE FROM attributerepairhistory WHERE carid = ?";
+		PreparedStatement prepState = connection.prepareStatement(sqlNoSafe);
+		prepState.execute();
+		prepState = connection.prepareStatement(sql);
+		prepState.setString(1, id);
+		
+		prepState.execute();
+		prepState = connection.prepareStatement(sqlYesSafe);
+		prepState.execute();
+		
+		connection.close();
 		
 		
 		

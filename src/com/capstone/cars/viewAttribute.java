@@ -1,6 +1,7 @@
 package com.capstone.cars;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -70,6 +71,12 @@ public class viewAttribute extends HttpServlet {
 		
 		request.setAttribute("currentCar", c);
 		
+		try {
+			UserDAO.storeHistory(name, mileage, last, id);
+		} catch (SQLException | ClassNotFoundException ex) {
+			
+			throw new ServletException(ex);
+		}
 		
 		Attribute att = new Attribute(name, mileage, last);
 		DBInteract.updateAttribute(att, id);

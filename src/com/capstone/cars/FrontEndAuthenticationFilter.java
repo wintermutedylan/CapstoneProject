@@ -20,7 +20,7 @@ public class FrontEndAuthenticationFilter implements Filter {
 	private HttpServletRequest httpRequest;
 	
 	private static final String[] loginRequiredURLs = {
-		"/helloServlet", "/viewAttribute", "/updateAttribute.jsp", "/editCar.jsp", "/new-car.jsp"
+		"/helloServlet", "/viewAttribute", "/updateAttribute.jsp", "/editCar.jsp", "/new-car.jsp", "/viewHistory.jsp", "/History", "/viewRepairs", "updateRepair.jsp"
 	};
 
     /**
