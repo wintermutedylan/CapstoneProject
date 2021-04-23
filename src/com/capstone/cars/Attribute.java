@@ -1,6 +1,8 @@
 package com.capstone.cars;
 
-public class Attribute {
+
+
+public class Attribute implements Comparable<Attribute>{
 	
 	private String name;
 	private String mileage;
@@ -46,6 +48,17 @@ public class Attribute {
 	public String toString() {
 		String id = (getName() + " " + getMileage() + " " + getLastUpdated());
 		return id;
+	}
+	public int getMileInt() {
+		String m = getMileage().replace(",", "");
+		int i = Integer.parseInt(m);
+		return i;
+	}
+
+	@Override
+	public int compareTo(Attribute o) {
+		
+		return this.getMileInt() - o.getMileInt();
 	}
 
 }

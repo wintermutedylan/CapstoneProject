@@ -3,8 +3,10 @@ package com.capstone.cars;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import com.mongodb.client.model.Filters;
 import java.util.Arrays;
@@ -93,8 +95,8 @@ public class HelloServlet extends HttpServlet {
 		String year = req.getParameter("year");
 		String mileage = req.getParameter("mileage");
 		mileage = mileage.replace(",", "");
-		Double numParsed = Double.parseDouble(mileage);
-		Car c = new Car(make, model, year, String.format("%,.2f", numParsed), user.getEmail());
+		int numParsed = Integer.parseInt(mileage);
+		Car c = new Car(make, model, year, NumberFormat.getNumberInstance(Locale.US).format(numParsed), user.getEmail());
 		
     	
     	

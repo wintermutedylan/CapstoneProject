@@ -25,7 +25,7 @@
                             
                                 <tr>
                                     
-                                    <td>Name</td>
+                                    <td>Type</td>
                                     <td>Mileage</td>
                                     <td>Last Updated (yyyy-MM-dd)</td>
                                     

@@ -1,8 +1,11 @@
 package com.capstone.cars;
 
 import java.sql.*;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 public class UserDAO {
 	
@@ -118,11 +121,14 @@ public class UserDAO {
 		
 			result = statement.executeQuery();
 			while (result.next()) {
-				Attribute att = new Attribute(itemName, result.getString("mileage"), result.getString("lastupdated"));
+				String miles = result.getString("mileage");
+				miles = miles.replace(",", "");
+				int numParsed = Integer.parseInt(miles);
+				Attribute att = new Attribute(itemName, NumberFormat.getNumberInstance(Locale.US).format(numParsed), result.getString("lastupdated"));
 				list.add(att);
 			}
-
-		
+			
+			Collections.sort(list);
 		
 		
 		

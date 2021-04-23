@@ -21,7 +21,7 @@
 	
 	<div class="form-group col-xs-4">
 		<label for="mileage" class="control-label col-xs-4">Mileage:</label>
-		<input type="text" name="mileage" id="mileage" class="form-control" value=<%= request.getParameter("mileage") %> required="true"/> 
+		<input type="text" name="mileage" id="mileage" class="form-control" required="true"/> 
 		
 		<label for="lastUpdated" class="control-label col-xs-4">Last Updated:</label>
 		<input type="date" name="lastUpdated" id="lastUpdated" class="form-control" value=<%= request.getParameter("lastUpdated") %> required="true"/> 

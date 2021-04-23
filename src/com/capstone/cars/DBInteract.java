@@ -7,9 +7,11 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.FindIterable;
 
 import java.util.List;
+import java.util.Locale;
 
 import static com.mongodb.client.model.Filters.eq;
 
+import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -28,56 +30,56 @@ public class DBInteract {
 	
 	private static void populateAttributeNames() {
 		
-    	attributeNames.add("oil change");
-    	attributeNames.add("transmission fluid change");
-    	attributeNames.add("antifreeze (coolant)");
-    	attributeNames.add("tire rotation");
-    	attributeNames.add("tire replacement");
-    	attributeNames.add("engine airfilter");
-    	attributeNames.add("cabin airfilter");
-    	attributeNames.add("windshield wiper");
-    	attributeNames.add("rear wiper");
-    	attributeNames.add("break fluid change");
-    	attributeNames.add("spark plugs");
-    	attributeNames.add("power steering fluid change");
-    	attributeNames.add("battery");
-    	attributeNames.add("timing belt");
-    	attributeNames.add("safety inspection");
-    	attributeNames.add("emmissions inspection");
-    	attributeNames.add("car wash");
+    	attributeNames.add("Oil Change");
+    	attributeNames.add("Transmission Fluid Change");
+    	attributeNames.add("Antifreeze (Coolant)");
+    	attributeNames.add("Tire Rotation");
+    	attributeNames.add("Tire Replacement");
+    	attributeNames.add("Engine Air Filter");
+    	attributeNames.add("Cabin Air Filter");
+    	attributeNames.add("Windshield Wiper");
+    	attributeNames.add("Rear Wiper");
+    	attributeNames.add("Break Fluid Change");
+    	attributeNames.add("Spark Plugs");
+    	attributeNames.add("Power Steering Fluid Change");
+    	attributeNames.add("Battery");
+    	attributeNames.add("Timing Belt");
+    	attributeNames.add("Safety Inspection");
+    	attributeNames.add("Emmissions Inspection");
+    	attributeNames.add("Car Wash");
 		
 	}
 	private static void populateRepairNames() {
 		
-    	repairNames.add("brake pads - front");
-    	repairNames.add("brake pads - rear");
-    	repairNames.add("brake rotors - front");
-    	repairNames.add("brake rotors - rear");
-    	repairNames.add("brake calipers - front");
-    	repairNames.add("brake calipers - rear");
-    	repairNames.add("shock absorber/strut - front");
-    	repairNames.add("shock absorber/strut - rear");
-    	repairNames.add("ball joints - front");
-    	repairNames.add("ball joints - rear");
-    	repairNames.add("tie rods - front");
-    	repairNames.add("tie rods - rear");
-    	repairNames.add("head lights");
-    	repairNames.add("turn signals");
-    	repairNames.add("tail lights");
-    	repairNames.add("brake lights");
-    	repairNames.add("interior lights");
-    	repairNames.add("windshield replacement");
-    	repairNames.add("side glass replacement");
-    	repairNames.add("rear glass replacement");
-    	repairNames.add("brake shoes");
-    	repairNames.add("serpentine belt");
-    	repairNames.add("termostat");
-    	repairNames.add("water pump");
-    	repairNames.add("oxygen sensors");
-    	repairNames.add("muffler");
-    	repairNames.add("catalytic converter");
-    	repairNames.add("tail pipe");
-    	repairNames.add("transmission repair");
+    	repairNames.add("Brake Pads - Front");
+    	repairNames.add("Brake Pads - Rear");
+    	repairNames.add("Brake Rotors - Front");
+    	repairNames.add("Brake Rotors - Rear");
+    	repairNames.add("Brake Calipers - Front");
+    	repairNames.add("Brake Calipers - Rear");
+    	repairNames.add("Shock Absorber/Strut - Front");
+    	repairNames.add("Shock Absorber/Strut - Rear");
+    	repairNames.add("Ball Joints - Front");
+    	repairNames.add("Ball Joints - Rear");
+    	repairNames.add("Tie Rods - Front");
+    	repairNames.add("Tie Rods - Rear");
+    	repairNames.add("Head Lights");
+    	repairNames.add("Turn Signals");
+    	repairNames.add("Tail Lights");
+    	repairNames.add("Brake Lights");
+    	repairNames.add("Interior Lights");
+    	repairNames.add("Windshield Replacement");
+    	repairNames.add("Side glass Replacement");
+    	repairNames.add("Rear glass Replacement");
+    	repairNames.add("Brake Shoes");
+    	repairNames.add("Serpentine Belt");
+    	repairNames.add("Thermostat");
+    	repairNames.add("Water Pump");
+    	repairNames.add("Oxygen Sensors");
+    	repairNames.add("Muffler");
+    	repairNames.add("Catalytic Converter");
+    	repairNames.add("Tail Pipe");
+    	repairNames.add("Transmission Repair");
     	
 		
 	}
@@ -230,8 +232,8 @@ public class DBInteract {
 		Bson filter = eq("_id", o);
 		FindIterable<Document> myC = getCol().find().filter(filter);
 		String number = att.getMileage().replace(",", "");
-		Double numParsed = Double.parseDouble(number);
-		Document query = new Document("$set", new Document("attributes." + att.getName() + ".mileage", String.format("%,.2f", numParsed)));
+		int numParsed = Integer.parseInt(number);
+		Document query = new Document("$set", new Document("attributes." + att.getName() + ".mileage", NumberFormat.getNumberInstance(Locale.US).format(numParsed)));
 		getCol().updateOne(filter, query);
 		Document query2 = new Document("$set", new Document("attributes." + att.getName() + ".last_update", att.getLastUpdated()));
 		getCol().updateOne(filter, query2);
@@ -249,8 +251,8 @@ public class DBInteract {
 		Bson filter = eq("_id", o);
 		FindIterable<Document> myC = getCol().find().filter(filter);
 		String number = att.getMileage().replace(",", "");
-		Double numParsed = Double.parseDouble(number);
-		Document query = new Document("$set", new Document("repairs." + att.getName() + ".mileage", String.format("%,.2f", numParsed)));
+		int numParsed = Integer.parseInt(number);
+		Document query = new Document("$set", new Document("repairs." + att.getName() + ".mileage", NumberFormat.getNumberInstance(Locale.US).format(numParsed)));
 		getCol().updateOne(filter, query);
 		Document query2 = new Document("$set", new Document("repairs." + att.getName() + ".last_update", att.getLastUpdated()));
 		getCol().updateOne(filter, query2);
@@ -266,14 +268,14 @@ public class DBInteract {
 		ObjectId o = new ObjectId(id);
 		Bson filter = eq("_id", o);
 		String number = car.getMileage().replace(",", "");
-		Double numParsed = Double.parseDouble(number);
+		int numParsed = Integer.parseInt(number);
 		Document query = new Document("$set", new Document("make", car.getMake()));
 		getCol().updateOne(filter, query);
 		Document query2 = new Document("$set", new Document("model", car.getModel()));
 		getCol().updateOne(filter, query2);
 		Document query3 = new Document("$set", new Document("year", car.getYear()));
 		getCol().updateOne(filter, query3);
-		Document query4 = new Document("$set", new Document("mileage", String.format("%,.2f", numParsed)));
+		Document query4 = new Document("$set", new Document("mileage", NumberFormat.getNumberInstance(Locale.US).format(numParsed)));
 		getCol().updateOne(filter, query4);
 		
 	}
