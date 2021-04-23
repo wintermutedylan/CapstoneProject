@@ -170,7 +170,7 @@ hr {
                                            
             
 	
-
+	<b>Welcome: ${user.fullname}</b>
 	<form action ="new-car.jsp" method="get">   
 		<br></br>
 		<button type="submit" class="btn btn-primary  btn-md">New Car</button> 

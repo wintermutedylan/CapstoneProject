@@ -129,7 +129,10 @@ public class DBInteract {
 	
 	
 	
-	
+	/**
+	 * Adds an attribute the document
+	 * @return the updated document
+	 */
 	public static Document addAttribute() {
 		if (attributeNames.isEmpty()) {
 			populateAttributeNames();
@@ -142,6 +145,10 @@ public class DBInteract {
 		}
 		return results;
 	}
+	/**
+	 * adds repairs to the docuemnt
+	 * @return the new document
+	 */
 	public static Document addRepairs() {
 		if (repairNames.isEmpty()) {
 			populateRepairNames();
@@ -156,6 +163,11 @@ public class DBInteract {
 		return results;
 	}
 	
+	/**
+	 * reads the cars attributes from the document
+	 * @param carID the Car ID
+	 * @return the list of all the attributes
+	 */
 	public static List<Attribute> readAttributesFromDocument(String carID){
 		if (attributeNames.isEmpty()) {
 			populateAttributeNames();
@@ -179,6 +191,11 @@ public class DBInteract {
 		
 		
 	}
+	/**
+	 * reads the cars repairs from the document
+	 * @param carID the Car ID
+	 * @return the list of all the repairs
+	 */
 	public static List<Attribute> readRepairsFromDocument(String carID){
 		if (repairNames.isEmpty()) {
 			populateRepairNames();
@@ -202,43 +219,61 @@ public class DBInteract {
 		
 		
 	}
-	
+	/**
+	 * updates a specific attribute for the car
+	 * @param att the attribute to update
+	 * @param id the car ID to select the right one
+	 */
 	public static void updateAttribute(Attribute att, String id) {
 		
 		ObjectId o = new ObjectId(id);
 		Bson filter = eq("_id", o);
 		FindIterable<Document> myC = getCol().find().filter(filter);
-		Document query = new Document("$set", new Document("attributes." + att.getName() + ".mileage", att.getMileage()));
+		String number = att.getMileage().replace(",", "");
+		Double numParsed = Double.parseDouble(number);
+		Document query = new Document("$set", new Document("attributes." + att.getName() + ".mileage", String.format("%,.2f", numParsed)));
 		getCol().updateOne(filter, query);
 		Document query2 = new Document("$set", new Document("attributes." + att.getName() + ".last_update", att.getLastUpdated()));
 		getCol().updateOne(filter, query2);
 	
 		
 	}
-	
+	/**
+	 * updates a specific repair for the car
+	 * @param att the repair to update
+	 * @param id the car ID to select the right one
+	 */
 	public static void updateRepair(Attribute att, String id) {
 		
 		ObjectId o = new ObjectId(id);
 		Bson filter = eq("_id", o);
 		FindIterable<Document> myC = getCol().find().filter(filter);
-		Document query = new Document("$set", new Document("repairs." + att.getName() + ".mileage", att.getMileage()));
+		String number = att.getMileage().replace(",", "");
+		Double numParsed = Double.parseDouble(number);
+		Document query = new Document("$set", new Document("repairs." + att.getName() + ".mileage", String.format("%,.2f", numParsed)));
 		getCol().updateOne(filter, query);
 		Document query2 = new Document("$set", new Document("repairs." + att.getName() + ".last_update", att.getLastUpdated()));
 		getCol().updateOne(filter, query2);
 
 	}
-	
+	/**
+	 * updates the car with new info given
+	 * @param car the new car info
+	 * @param id the ID of the car to update
+	 */
 	public static void updateCar(Car car, String id) {
 		System.out.println(id);
 		ObjectId o = new ObjectId(id);
 		Bson filter = eq("_id", o);
+		String number = car.getMileage().replace(",", "");
+		Double numParsed = Double.parseDouble(number);
 		Document query = new Document("$set", new Document("make", car.getMake()));
 		getCol().updateOne(filter, query);
 		Document query2 = new Document("$set", new Document("model", car.getModel()));
 		getCol().updateOne(filter, query2);
 		Document query3 = new Document("$set", new Document("year", car.getYear()));
 		getCol().updateOne(filter, query3);
-		Document query4 = new Document("$set", new Document("mileage", car.getMileage()));
+		Document query4 = new Document("$set", new Document("mileage", String.format("%,.2f", numParsed)));
 		getCol().updateOne(filter, query4);
 		
 	}

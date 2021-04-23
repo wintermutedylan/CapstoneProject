@@ -92,7 +92,9 @@ public class HelloServlet extends HttpServlet {
 		String model = req.getParameter("model");
 		String year = req.getParameter("year");
 		String mileage = req.getParameter("mileage");
-		Car c = new Car(make, model, year, mileage, user.getEmail());
+		mileage = mileage.replace(",", "");
+		Double numParsed = Double.parseDouble(mileage);
+		Car c = new Car(make, model, year, String.format("%,.2f", numParsed), user.getEmail());
 		
     	
     	

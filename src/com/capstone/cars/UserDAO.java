@@ -5,6 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAO {
+	
+	/**
+	 * Check the login to see if its valid
+	 * @param email email to check
+	 * @param password the password to check
+	 * @return returns an updated User object with email and name filled in
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
 	public User checkLogin(String email, String password) throws SQLException, ClassNotFoundException{
 		String jdbcURL = "jdbc:mysql://capstonedatabase.cjus59jdxyan.us-east-2.rds.amazonaws.com:3306/login";
 		String dbUser = "dwintermute";
@@ -35,7 +44,16 @@ public class UserDAO {
 		
 		return user;
 	}
-	
+	/**
+	 * register a new user in the database
+	 * @param email email to use
+	 * @param password password to use
+	 * @param rePassword the password entered again to make sure they entered it right
+	 * @param name the name to use
+	 * @return returns a string if the user is registered successfully or not
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
 	public String registerUser(String email, String password, String rePassword, String name) throws SQLException, ClassNotFoundException{
 		String jdbcURL = "jdbc:mysql://capstonedatabase.cjus59jdxyan.us-east-2.rds.amazonaws.com:3306/login";
 		String dbUser = "dwintermute";
@@ -76,6 +94,14 @@ public class UserDAO {
 		
 	}
 	
+	/**
+	 * Reads the history of either maintenance or repairs
+	 * @param itemName the item to look up
+	 * @param id the ID of the car to use
+	 * @return returns the list of the attributes in order that they were entered
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public static List<Attribute> readHistory(String itemName, String id) throws ClassNotFoundException, SQLException {
 		String jdbcURL = "jdbc:mysql://capstonedatabase.cjus59jdxyan.us-east-2.rds.amazonaws.com:3306/login";
 		String dbUser = "dwintermute";
@@ -107,7 +133,15 @@ public class UserDAO {
 		return list;
 		
 	}
-	
+	/**
+	 * Stores the history for an item when it is updated
+	 * @param itemName the item to store history for
+	 * @param miles how many miles to store
+	 * @param updated the date they entered to store
+	 * @param id the ID of the car
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public static void storeHistory(String itemName, String miles, String updated, String id) throws ClassNotFoundException, SQLException{
 		String jdbcURL = "jdbc:mysql://capstonedatabase.cjus59jdxyan.us-east-2.rds.amazonaws.com:3306/login";
 		String dbUser = "dwintermute";
@@ -128,7 +162,12 @@ public class UserDAO {
 		
 		
 	}
-	
+	/**
+	 * deletes history.  only used when deleting a car from the database
+	 * @param id the ID of the car to delete the history
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public static void deleteHistory(String id) throws ClassNotFoundException, SQLException{
 		String jdbcURL = "jdbc:mysql://capstonedatabase.cjus59jdxyan.us-east-2.rds.amazonaws.com:3306/login";
 		String dbUser = "dwintermute";

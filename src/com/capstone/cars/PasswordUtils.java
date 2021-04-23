@@ -9,7 +9,12 @@ import java.util.Base64;
 import java.util.Random;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
- 
+ /**
+  * mainly taken off the internet.  im not knowledgeable enough to do this one my own
+  * I did this becuase I want it to be secure and if I did it by myself it would be a mess and not work
+  * only thing that is mostly from the internet everything else I did myself.  did it for security reasons.
+  *
+  */
 public class PasswordUtils {
     
     private static final Random RANDOM = new SecureRandom();
